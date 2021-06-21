@@ -1,0 +1,20 @@
+{
+  "name": "node_command_first_zj",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "compress-png": "bin/compress.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "imagemin": "^8.0.0",
+    "imagemin-pngquant": "^9.0.2",
+    "minimist": "^1.2.5",
+    "progress": "^2.0.3",
+    "tinify": "^1.6.0-beta.2"
+  }
+}
