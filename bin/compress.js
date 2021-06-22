@@ -10,7 +10,8 @@ tinify.key = "9gfxRWlW6Kbym9jlrPNmSHcKwLCr5wCP";
 // 待匹配的文件格式
 const type = ".png";
 
-const bar = new ProgressBar("Compressing <:bar> :percent", { total: 10 });
+// const bar1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+let bar = null;
 
 const fileStats = {};
 // 没传参数抛出错误
@@ -22,11 +23,16 @@ if (!params.src) {
 
 async function fileWalker(filePath) {
   // 根据文件路径读取文件，返回文件列表
-  fs.readdir(filePath, async function (err, files) {
+  await fs.readdir(filePath, async function (err, files) {
     if (err) throw err;
 
+    console.log(files.length);
+
+    bar = new ProgressBar("Compressing <:bar> :percent", {
+      total: (files.length - 1) * 10,
+    });
     // 遍历读取到的文件列表
-    await files.forEach(async (filename) => {
+    files.forEach(async (filename) => {
       // 获取当前文件的绝对路径
       let filedir = path.join(filePath, filename);
       // 根据文件路径获取文件信息，返回一个fs.Stats对象
@@ -38,9 +44,9 @@ async function fileWalker(filePath) {
           fileStats[filename] = {
             startSize: Math.floor(stats.size / 1024) + "kb", //压缩前大小
           };
-          fs.readFile(filedir, function (err, sourceData) {
+          await fs.readFile(filedir, async function (err, sourceData) {
             if (err) throw err;
-            tinify
+            await tinify
               .fromBuffer(sourceData)
               .toBuffer(async function (err, resultData) {
                 if (err) throw err;
@@ -53,29 +59,31 @@ async function fileWalker(filePath) {
                       ...fileStats[filename],
                       endSize: Math.floor(stats.size / 1024) + "kb",
                     }; //压缩前大小
+                    await bar.tick(10);
+                    console.log("status", bar.complele);
+
+                    if (bar.complete) {
+                      console.log("compress successfully");
+                      await findEndPicSize(params.target);
+                      for (let key in fileStats) {
+                        console.info(
+                          key,
+                          "\t=>",
+                          "|before",
+                          fileStats[key].startSize,
+                          "|after",
+                          fileStats[key].endSize
+                        );
+                      }
+                    }
                   });
-                  bar.tick();
                 });
-                if (bar.complete) {
-                  console.log("compress successfully");
-                  await findEndPicSize(params.target);
-                  for (let key in fileStats) {
-                    console.info(
-                      key,
-                      "\t=>",
-                      "|before",
-                      fileStats[key].startSize,
-                      "|after",
-                      fileStats[key].endSize
-                    );
-                  }
-                }
               });
           });
         }
-        if (isDir) {
-          fileWalker(filedir); // 递归，如果是文件夹，就继续遍历该文件夹下面的文件
-        }
+        // if (isDir) {
+        //   fileWalker(filedir); // 递归，如果是文件夹，就继续遍历该文件夹下面的文件
+        // }
       });
     });
   });
@@ -95,4 +103,5 @@ async function findEndPicSize(filePath) {
     });
   });
 }
+console.log("start compressing");
 fileWalker(params.src);

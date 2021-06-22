@@ -1,6 +1,6 @@
 {
-  "name": "node_command_first_zj",
-  "version": "1.0.0",
+  "name": "compress-pngs",
+  "version": "1.1.0",
   "description": "",
   "bin": {
     "compress-png": "bin/compress.js"
@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cli-progress": "^3.9.0",
     "imagemin": "^8.0.0",
     "imagemin-pngquant": "^9.0.2",
     "minimist": "^1.2.5",
