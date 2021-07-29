@@ -13,3 +13,4 @@ npm install compress-pngs -g
 # 注意
 
 - 目前只支持一级目录下的 png 文件， 不支持递归
+- github 地址： https://github.com/Zakisee/compress-pngs
