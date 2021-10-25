@@ -10,16 +10,19 @@ const colors = require("colors");
 tinify.key = "9gfxRWlW6Kbym9jlrPNmSHcKwLCr5wCP";
 // 待匹配的文件格式
 const type = ".png";
-
-// const bar1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+// 进度条
 let bar = null;
-
 const picSizeComparation = {};
+let sourceSrc = ""; //源文件地址
+
 // 没传参数抛出错误;
-if (!params.src) {
-  throw new Error("Expected src");
+if (!params.local && !params.src) {
+  throw new Error("Expected src or local");
 } else if (!params.target) {
   throw new Error("Expected target");
+}
+if (params.local || params.src) {
+  sourceSrc = params.src || process.cwd();
 }
 
 function getFiles(filePath) {
@@ -28,7 +31,7 @@ function getFiles(filePath) {
     try {
       files = fs.readdirSync(filePath);
     } catch (err) {
-      console.log("can not open this file");
+      console.error("can not open this file");
       throw new Error(err);
     }
     bar = new ProgressBar("Compressing <:bar> :percent", {
@@ -106,4 +109,5 @@ function main(sourcePath) {
     });
   });
 }
-main(params.src);
+
+main(sourceSrc);
