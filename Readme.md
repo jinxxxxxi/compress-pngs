@@ -6,6 +6,18 @@
 
 npm install compress-pngs -g
 
+# 配置 tiny-png key
+
+点击官网 https://tinypng.com/
+
+## 第一步 注册
+
+![Image text](https://raw.githubusercontent.com/Zakisee/images/master/tiny1.png?token=GHSAT0AAAAAABRS6TE6KKOZU4J642WSXIJEYT3MJMA)
+
+## 第二步 申请 key
+
+![Image text](https://raw.githubusercontent.com/Zakisee/images/master/tiny2.png?token=GHSAT0AAAAAABRS6TE6NYNDPB25E5CUFD6MYT3MKRA)
+
 # 命令行使用
 
 1.  compress-png --src[源地址] --target[目标地址] （**都必须是绝对地址**）
