@@ -1,6 +1,6 @@
 {
   "name": "compress-pngs",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "add options",
   "bin": {
     "compress-png": "bin/index.js"
