@@ -12,11 +12,11 @@ npm install compress-pngs -g
 
 ## 第一步 注册
 
-![Image text](https://raw.githubusercontent.com/Zakisee/images/master/tiny1.png?token=GHSAT0AAAAAABRS6TE6KKOZU4J642WSXIJEYT3MJMA)
+![Image text](https://raw.githubusercontent.com/Zakisee/images/master/tiny1.png)
 
 ## 第二步 申请 key
 
-![Image text](https://raw.githubusercontent.com/Zakisee/images/master/tiny2.png?token=GHSAT0AAAAAABRS6TE6NYNDPB25E5CUFD6MYT3MKRA)
+![Image text](https://raw.githubusercontent.com/Zakisee/images/master/tiny2.png)
 
 ## 第三步 将 key 添加到项目 config.json 文件下
 
