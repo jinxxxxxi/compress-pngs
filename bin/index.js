@@ -1,11 +1,14 @@
 #!/usr/bin/env node
 const tinify = require('tinify')
+const commander = require('commander')
 const params = require('minimist')(process.argv.slice(2))
+const colors = require('colors/safe')
 const ProgressBar = require('progress')
 const fs = require('fs')
 const path = require('path')
 const { isPngPic, getFiles, writeFile } = require('./utils.js')
 const config = require('../config.json')
+const package = require('../package.json')
 // tinify 官方 key
 tinify.key = config.tinyKey
 // 进度条
@@ -15,13 +18,17 @@ const picSizeComparation = {}
 let sourceSrc = '' //源文件地址
 let isNeedNewFile = false
 
-// 没传参数抛出错误;
-if (!params.local && !params.src) {
-  throw new Error('Expected src or local')
-}
-if (params.local || params.src) {
-  sourceSrc = params.src || process.cwd()
-  targetSrc = params.target || `${sourceSrc}/${Date.now()}_pngs`
+commander.version(package.version).description('A pciture compress toll')
+commander
+  .option('-s, --src', 'source location')
+  .option('-l, --local', 'use pwd with location')
+  .option('-t, --target', 'target location')
+
+commander.parse(process.argv)
+
+if (params.l || params.s || params.src || params.local) {
+  sourceSrc = params?.s || params?.src || process.cwd()
+  targetSrc = params?.t || params?.target || `${sourceSrc}/${Date.now()}_pngs`
   isNeedNewFile = !!targetSrc
 }
 
@@ -33,15 +40,17 @@ async function getCompressedPicSize(fileName) {
     endSize: Math.floor(picStats.size / 1024) + 'kb'
   } //压缩后大小
   await bar.tick(barStep)
+
   if (bar.complete) {
     for (let key in picSizeComparation) {
       console.info(
         key,
         '\t=>',
-        '|before'.blue,
-        picSizeComparation[key].startSize,
-        '|after'.blue,
-        picSizeComparation[key].endSize
+        'before',
+        colors.blue(picSizeComparation[key].startSize),
+        ' | ',
+        'after',
+        colors.green(picSizeComparation[key].endSize)
       )
     }
   }

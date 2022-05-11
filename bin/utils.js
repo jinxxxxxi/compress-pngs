@@ -1,6 +1,5 @@
 const fs = require('fs')
 const config = require('../config.json')
-const params = require('minimist')(process.argv.slice(2))
 
 // 待匹配的文件格式
 const type = config.type
