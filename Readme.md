@@ -9,6 +9,7 @@ npm install compress-pngs -g
 # 命令行使用
 
 1.  compress-png --src[源地址] --target[目标地址]
+2.  增加 --local 参数，表示从当前目录下获取[源地址]，会优先获取[src]参数； [local]和[src]必须得有一个
 
 # 注意
 

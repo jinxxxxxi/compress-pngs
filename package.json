@@ -1,7 +1,7 @@
 {
   "name": "compress-pngs",
-  "version": "1.2.1",
-  "description": "代码重构，全部使用同步函数",
+  "version": "1.2.2",
+  "description": "增加local参数表示使用当前地址作为源地址",
   "bin": {
     "compress-png": "bin/index.js"
   },
