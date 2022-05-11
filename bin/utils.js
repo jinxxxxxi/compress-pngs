@@ -1,5 +1,4 @@
 const fs = require('fs')
-const ProgressBar = require('progress')
 const config = require('../config.json')
 const params = require('minimist')(process.argv.slice(2))
 
@@ -16,20 +15,20 @@ function getFiles(filePath) {
     let files
     try {
       files = fs.readdirSync(filePath)
+      files = files.filter((item) => {
+        const arr = item.split('.')
+        return arr.length === 2 && arr[0]
+      })
     } catch (err) {
       console.error('can not open this file')
       throw new Error(err)
     }
-    bar = new ProgressBar('Compressing <:bar> :percent', {
-      // 有一个apple隐藏文件
-      total: (files.length - 1) * 10
-    })
     resolve(files)
   })
 }
 
-function writeFile(data, fileName) {
-  const path = params.target + '/' + fileName
+function writeFile(target, data, fileName) {
+  const path = target + '/' + fileName
   fs.writeFileSync(path, data)
 }
 module.exports = { isPngPic, getFiles, writeFile }
