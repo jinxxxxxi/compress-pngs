@@ -1,7 +1,7 @@
 {
   "name": "compress-pngs",
-  "version": "1.4.2",
-  "description": "add options",
+  "version": "1.5.0",
+  "description": "add ora",
   "bin": {
     "compress-png": "bin/index.js"
   },
@@ -21,6 +21,7 @@
     "imagemin-pngquant": "^9.0.2",
     "minimist": "^1.2.5",
     "npm": "^7.19.1",
+    "ora": "^5.4.0",
     "progress": "^2.0.3",
     "tinify": "^1.6.0-beta.2"
   }

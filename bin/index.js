@@ -3,22 +3,26 @@ const tinify = require('tinify')
 const commander = require('commander')
 const params = require('minimist')(process.argv.slice(2))
 const colors = require('colors/safe')
+const ora = require('ora')
 const ProgressBar = require('progress')
 const fs = require('fs')
 const path = require('path')
 const { isPngPic, getFiles, writeFile } = require('./utils.js')
 const config = require('../config.json')
-const package = require('../package.json')
+const pkg = require('../package.json')
+
 // tinify 官方 key
 tinify.key = config.tinyKey
 // 进度条
 let bar = null
 let barStep = 10
+let pngNums = 0
 const picSizeComparation = {}
 let sourceSrc = '' //源文件地址
 let isNeedNewFile = false
+const spinner = ora('Loading...').start()
 
-commander.version(package.version).description('A pciture compress toll')
+commander.version(pkg.version).description('A pciture compress toll')
 commander
   .option('-s, --src', 'source location')
   .option('-l, --local', 'use pwd with location')
@@ -66,11 +70,24 @@ async function compressPic(fileStats, fileName, picture) {
     if (err) throw err
     writeFile(targetSrc, resultData, fileName)
     getCompressedPicSize(fileName)
+
+    if (Object.keys(picSizeComparation).length === pngNums) {
+      spinner.stop()
+    }
   })
 }
 
+function changeLoading(color, text) {
+  spinner.color = color
+  spinner.text = text
+}
+
 function main(sourcePath) {
+  changeLoading('green', 'starting reading pictures')
   getFiles(sourcePath).then((files) => {
+    changeLoading('green', 'Comperssing...')
+    // 缓存图片数量
+    pngNums = files.length
     // 进度条初始化
     bar = new ProgressBar('Compressing <:bar> :percent', {
       // 有一个apple隐藏文件
